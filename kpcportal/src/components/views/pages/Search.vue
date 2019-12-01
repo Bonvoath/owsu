@@ -1,0 +1,179 @@
+<template>
+    <div class="vld-parent">
+        <loading :active.sync="isLoading" color="#0856ab" :is-full-page="false"></loading>
+        <div class="search-container" v-if="!isCompleted">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="text-center">ដើម្បីពិនិត្យដំណើរការឯកសារ ១. ​ត្រូវបញ្ជូលលេខកូដចុះបញ្ជីសេវា​​ ២. ត្រូវបញ្ជូលលេខទូរស័ព្ទដែលបានចុះបញ្ជីសេវា​ បន្ទាប់មកចុកប៉ូតុងស្វែងរកខាងក្រោម។</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <div class="input-search">
+                        <input type="text" class="form-control" ref="code"
+                            v-model="query.RegisterCode"
+                            :placeholder="holder.code"
+                            @focus="focus('code')"
+                            @blur="blur('code', 'លេខកូដចុះបញ្ជីសេវា')"
+                            @keypress.enter="search">
+                    </div>
+                    <div class="input-search">
+                        <input type="text" class="form-control" ref="phone"
+                            v-model="query.Phone"
+                            :placeholder="holder.phone"
+                            @focus="focus('phone')"
+                            @blur="blur('phone','លេខទូរស័ព្ទ')"
+                            @keypress.enter="search">
+                    </div>
+                    <div class="text-center" style="padding: 25px;">
+                        <button type="button" class="btn btn-success btn-search" @click="search"><i class="fa fa-search" aria-hidden="true"></i> ស្វែងរក</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center" v-else>
+            <div class="col-sm-12">
+                <h5 class="font-moul">ការចុះបញ្ជីសេវា</h5>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th style="padding-left: 0; width: 150px;">ដំណើរការឯកសារដល់</th>
+                            <td style="width: 15px;">:</td>
+                            <td>
+                                <span class="alert alert-primary font-moul" style="padding: 8px 10px;">{{result.ProcessName}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="padding-left: 0; width: 150px;">លេខកូដចុះបញ្ជីសេវា</th>
+                            <td style="width: 15px;">:</td>
+                            <td>{{result.Code}}</td>
+                        </tr>
+                        <tr>
+                            <th style="padding-left: 0">មុខសេវា</th>
+                            <td>:</td>
+                            <td>{{result.ServiceName}}</td>
+                        </tr>
+                        <tr>
+                            <th style="padding-left: 0; width: 150px;">ថ្ងៃចុះបញ្ជីសេវា</th>
+                            <td>:</td>
+                            <td>{{$format(result.DateRegistered, 'DD/MM/YYYY HH:mm A')}}</td>
+                        </tr>
+                        <tr>
+                            <th style="padding-left: 0; width: 150px;">ថ្ងៃទទួលយក</th>
+                            <td>:</td>
+                            <td>{{$format(result.DateExpired, 'DD/MM/YYYY HH:mm A')}}</td>
+                        </tr>
+                        <tr>
+                            <th style="padding-left: 0; width: 150px;">ឈ្មោះនាមករណ័</th>
+                            <td>:</td>
+                            <td>{{result.CustomerName}}</td>
+                        </tr>
+                        <tr>
+                            <th style="padding-left: 0; width: 150px;">តម្លៃ</th>
+                            <td>:</td>
+                            <td>{{$money(result.ServicePrice)}} រៀល</td>
+                        </tr>
+                        <tr>
+                            <th style="padding-left: 0; width: 150px;">ចំនួន</th>
+                            <td>:</td>
+                            <td>1 {{result.ServiceUnit}}</td>
+                        </tr>
+                        <tr>
+                            <th style="padding-left: 0; width: 150px;">អាសយដ្ឋាន</th>
+                            <td>:</td>
+                            <td>{{result.Address}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-outline-success" @click="reset">ស្វែងរកម្តងទៀត</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</template>
+<script>
+export default {
+    data: function(){
+        return {
+            query: {
+                RegisterCode: '',
+                Phone: ''
+            },
+            holder: {
+                code: 'លេខកូដចុះបញ្ជីសេវា',
+                phone: 'លេខទូរស័ព្ទ'
+            },
+            isLoading: false,
+            isCompleted: false,
+            result: {}
+        }
+    },
+    methods: {
+        focus: function(field){
+            this.holder[field] = '';
+        },
+        blur: function(field, value){
+            this.holder[field] = value;
+        },
+        reset(){
+            this.result = {};
+            this.query = {
+                RegisterCode: '',
+                Phone: ''
+            };
+            this.isCompleted = false;
+        },
+        search(){
+            if(this.query.RegisterCode == null || this.query.RegisterCode == ''){
+                this.$toasted.show('សូមធ្វើការបញ្ជូលលេខកូដចុះបញ្ជីសេវា');
+                this.$refs.code.focus();
+                return;
+            }
+            if(this.query.Phone == null || this.query.Phone == ''){
+                this.$toasted.show('សូមធ្វើការបញ្ជូលលេខទូរស័ព្ទ');
+                this.$refs.phone.focus();
+                return;
+            }
+            this.isLoading = true;
+            this.$api().post('api/transaction/search', this.query).then((res) => {
+                if(this.$isValid(res)){
+                    this.result = res.data.Data;
+                    this.isLoading = false;
+                    this.isCompleted = true;
+                }
+            }).catch(error => {
+                this.$toasted.show(error);
+            }).finally(() => { this.isLoading = false; });
+        }
+    }
+}
+</script>
+<style scoped>
+    .search-container{
+        padding: 50px 10px;
+    }
+    .input-search {
+        border: 1px solid #ddd;
+        overflow: hidden;
+        border-radius: 45px;
+        margin-bottom: 10px;
+    }
+    .input-search .form-control{
+        border-left: none;
+        padding: 25px 5px;
+        border: none;
+        text-align: center;
+    }
+    .btn-search {
+        padding: 10px 25px;
+        background: #94c13d;
+        border: none;
+    }
+
+    /* .vld-overlay{
+        text-align: center;
+    } */
+</style>
