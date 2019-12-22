@@ -26,5 +26,9 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
+        <div class="row">
+            <div class="col-sm-12">
+            <h1 class="font-M1" style="margin-top: 25px;">គេហទំព័រកំពុងអភិវឌ្ឍន៍</h1></div>
+        </div>
     </div>
 </template>

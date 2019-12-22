@@ -24,16 +24,14 @@
                 </tr>
             </tbody>
         </table>
-        <component :is="component" v-else></component>
+        <TableListService v-else></TableListService>
     </div>
 </template>
 <script>
-    import ReportForm01 from '../webreports/01.ReportForm'
-    import ReportForm02 from '../webreports/02.ReportForm'
+    import TableListService from '../pages/TableListService'
     export default {
         components: {
-            ReportForm01,
-            ReportForm02
+            TableListService
         },
         data: function(){
             return {
@@ -63,6 +61,7 @@
             select(item){
                 this.isLoading = true;
                 this.$api().post('api/service/list', { SectorId: item.Id }).then(res => {
+                    console.log(res);
                     if(res.data.StatusCode == 200){
                         this.$store.state.services = res.data.Data;
                         this.isLoading = false;
@@ -70,17 +69,6 @@
                         this.isDetail = true;
                     }
                 });
-            }
-        },
-        computed: {
-            component: function(){
-                let renderComponent = 'ReportForm01';
-                if(this.sector.Id != undefined){
-                    if(this.sector.Id == 16){
-                        renderComponent = 'ReportForm02';
-                    }
-                }
-                return renderComponent;
             }
         }
     }
