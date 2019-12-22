@@ -5,10 +5,11 @@
                 <tr>
                     <td class="text-center" style="vertical-align: middle; width:70px;">ល.រ</td>
                     <td colspan="2" class="text-center" style="vertical-align: middle;">បរិយាយ</td>
-                    <td class="text-center" style="vertical-align: middle;">តំលៃសេវា(ជារៀល)</td>
-                    <td class="text-center" style="vertical-align: middle; width: 120px;">រយះពេលអតិបរិមា<br />នៃកាផ្តល់សេវា​<br/>(ថ្ងៃធ្វើការ)</td>
+                    <td class="text-center" style="vertical-align: middle;">តម្លៃសេវា(រៀល)</td>
+                    <td class="text-center" style="vertical-align: middle; width: 120px;">រយះពេលអតិបរមា<br />នៃកាផ្តល់សេវា​<br/>(ថ្ងៃធ្វើការ)</td>
                     <td class="text-center" style="vertical-align: middle; width: 90px;">សុពលភាព</td>
                     <td rowspan="2" class="text-center" style="vertical-align: middle; width: 70px;">ចំនួន</td>
+                    <td rowspan="2" class="text-center" style="vertical-align: middle; width: 50px;">ពាក្យស្នើសុំ</td>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +36,9 @@
                         <td class="text-center">{{ret.Duration}}</td>
                         <td class="text-center">{{ret.Limitation}}</td>
                         <td class="text-center">{{ret.Unit}}</td>
+                        <td class="text-center" style="width: 50px; padding: 6px 10px">
+                            <button type="button" v-if="ret.LinkPdf!=undefined && ret.LinkPdf!=null" class="btn btn-outline-secondary btn-sm link-select no-margin">ទាញយក</button>
+                        </td>
                     </tr>
                 </template>
             </tbody>

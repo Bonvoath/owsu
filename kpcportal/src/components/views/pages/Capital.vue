@@ -3,10 +3,10 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-cus">
                 <li class="breadcrumb-item font-kulen">
-                    <a href="javascript:void(0)" @click="back" v-if="sector.Name!=undefined">តារាងវិស័យខេត្តកំពង់ចាម</a>
-                    <span v-else>តារាងវិស័យខេត្តកំពង់ចាម</span>
+                    <a href="javascript:void(0)" @click="back" v-if="sector.Name!=undefined">ថ្នាក់រាជធានី-ខេត្ត</a>
+                    <span v-else>ថ្នាក់រាជធានី-ខេត្ត</span>
                 </li>
-                <li class="breadcrumb-item font-kulen" v-if="sector.Name!=undefined">{{sector.Sector}}</li>
+                <li class="breadcrumb-item font-kulen" v-if="sector.Name!=undefined">តារាងតម្លៃ{{sector.Sector}}</li>
             </ol>
         </nav>
         <loading :active.sync="isLoading" color="#0856ab" :is-full-page="false"></loading>
@@ -15,12 +15,14 @@
                 <tr class="font-kulen">
                     <td style="width: 20px;">ល.រ</td>
                     <td>វិស័យ</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(ret,index) in list" :key="index">
                     <td>{{index+1}}</td>
                     <td><a href="javascript:void(0)" class="link-select" @click="select(ret)">{{ret.Name}}</a></td>
+                    <td class="text-right" style="width: 150px; padding: 10px 0;"><a href="javascript:void(0)" class="btn btn-outline-secondary btn-sm link-select no-margin" @click="select(ret)">មើលតារាងតម្លៃ</a></td>
                 </tr>
             </tbody>
         </table>

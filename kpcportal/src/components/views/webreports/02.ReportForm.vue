@@ -5,10 +5,11 @@
                 <tr>
                     <td rowspan="2" class="text-center" style="vertical-align: middle; width:70px;">ល.រ</td>
                     <td rowspan="2" class="text-center" style="vertical-align: middle;">បរិយាយ</td>
-                    <td colspan="2" class="text-center">តំលៃសេវា(ជារៀល)</td>
-                    <td rowspan="2" class="text-center" style="vertical-align: middle; width: 120px;">រយះពេលអតិបរិមា<br />នៃកាផ្តល់សេវា​<br/>(ថ្ងៃធ្វើការ)</td>
+                    <td colspan="2" class="text-center">តម្លៃសេវា(រៀល)</td>
+                    <td rowspan="2" class="text-center" style="vertical-align: middle; width: 120px;">រយះពេលអតិបរមា<br />នៃកាផ្តល់សេវា​<br/>(ថ្ងៃធ្វើការ)</td>
                     <td rowspan="2" class="text-center" style="vertical-align: middle; width: 90px;">សុពលភាព</td>
                     <td rowspan="2" class="text-center" style="vertical-align: middle; width: 70px;">ចំនួន</td>
+                    <td rowspan="2" class="text-center" style="vertical-align: middle; width: 50px;">ពាក្យស្នើសុំ</td>
                 </tr>
                 <tr>
                     <td class="text-center" style="width: 100px;">តម្លៃអតិបរិមា</td>
@@ -18,15 +19,15 @@
             <tbody>
                 <template v-for="(ret) in records">
                     <tr v-if="ret.LevelId == 0" :key="ret.Id">
-                        <td colspan="7" class="font-M1">{{ret.Name}}</td>
+                        <td colspan="8" class="font-M1">{{ret.Name}}</td>
                     </tr>
                     <tr v-if="ret.LevelId == 1" :key="ret.Id">
                         <td class="text-right" style="width: 50px;">{{ret.SubNum}}</td>
-                        <td colspan="6"><b>{{ret.Name}}</b></td>
+                        <td colspan="7"><b>{{ret.Name}}</b></td>
                     </tr>
                     <tr v-if="ret.LevelId == 2" :key="ret.Id">
                         <td class="text-right">{{ret.SubNum}}</td>
-                        <td colspan="6">{{ret.Name}}</td>
+                        <td colspan="7">{{ret.Name}}</td>
                     </tr>
                     <tr v-if="ret.LevelId == 3" :key="ret.Id">
                         <td class="text-center">{{ret.Num}}</td>
@@ -36,6 +37,9 @@
                         <td class="text-center">{{ret.Duration}}</td>
                         <td class="text-center">{{ret.Limitation}}</td>
                         <td class="text-center">{{ret.Unit}}</td>
+                        <td class="text-center" style="width: 50px; padding: 6px 10px">
+                            <button type="button" v-if="ret.LinkPdf!=undefined && ret.LinkPdf!=null" class="btn btn-outline-secondary btn-sm link-select no-margin">ទាញយក</button>
+                        </td>
                     </tr>
                 </template>
             </tbody>
