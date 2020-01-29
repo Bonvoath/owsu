@@ -42,7 +42,7 @@
                         <td class="text-center">{{ret.Limitation}}</td>
                         <td class="text-center">{{ret.Unit}}</td>
                         <td class="text-center" style="width: 50px; padding: 6px 10px">
-                            <button type="button" v-if="ret.LinkPdf!=undefined && ret.LinkPdf!=null" class="btn btn-outline-secondary btn-sm link-select no-margin">ទាញយក</button>
+                            <button type="button" v-if="ret.LinkPdf!=undefined && ret.LinkPdf!=null" class="btn btn-outline-secondary btn-sm link-select no-margin" @click="onDownload">ទាញយក</button>
                         </td>
                     </tr>
                 </template>
@@ -58,6 +58,11 @@
         data(){
             return {
                 records: this.vmodel
+            }
+        },
+        methods: {
+            onDownload(){
+                window.open(this.$base() + 'api/service/download/' + id);
             }
         },
         watch: {

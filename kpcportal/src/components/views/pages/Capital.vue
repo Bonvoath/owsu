@@ -63,7 +63,6 @@
             select(item){
                 this.isLoading = true;
                 this.$api().post('api/service/list', { SectorId: item.Id }).then(res => {
-                    console.log(res);
                     if(res.data.StatusCode == 200){
                         this.$store.state.services = res.data.Data;
                         this.isLoading = false;

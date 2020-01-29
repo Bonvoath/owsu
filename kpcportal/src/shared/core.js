@@ -18,6 +18,10 @@ import CryptoJS from 'crypto-js';
 import numeral from 'numeral';
 export default {
     install(Vue){
+        Vue.prototype.$base = () => {
+            return 'http://203.223.44.122:8058/';
+        }
+
         Vue.prototype.$user = () => {
             if(sessionStorage.getItem('jwt@user') == null)
                 return undefined;
@@ -31,7 +35,7 @@ export default {
                 token = CryptoJS.AES.decrypt(sessionStorage.getItem('jwt'),'jwtaccess').toString(CryptoJS.enc.Utf8);
             }
             return axios.create({
-                baseURL: 'http://203.223.44.122:8058/',
+                baseURL: this.$base(),
                 headers: { Authorization: 'Bearer ' +  token}
             });
         }
