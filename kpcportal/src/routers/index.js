@@ -7,6 +7,7 @@ const WebContainer = () => import('../components/containers/WebContainer');
 const AdminContainer = () => import('../components/containers/AdminContainer');
 const PageHome = () => import('../components/views/pages/Home');
 const PageCapital = () => import('../components/views/pages/Capital');
+const PageCapitalSector = () => import('../components/views/pages/CapitalSector');
 const PageDistrict = () => import('../components/views/pages/District');
 const PageCommune = () => import('../components/views/pages/Commune');
 const PageSearch = () => import('../components/views/pages/Search');
@@ -75,6 +76,15 @@ function configRoutes() {
                     component: PageHome,
                     meta: {
                         title: 'ទំព័រដើម',
+                        requiresAuth: false
+                    }
+                },
+                {
+                    path: 'price/capital/:id',
+                    name: 'capital_detail',
+                    component: PageCapitalSector,
+                    meta: {
+                        title: 'តម្លៃសេវាថ្នាក់រាជធានី-ខេត្ត',
                         requiresAuth: false
                     }
                 },

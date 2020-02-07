@@ -3,14 +3,12 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-cus">
                 <li class="breadcrumb-item font-kulen">
-                    <a href="javascript:void(0)" @click="back" v-if="sector.Name!=undefined">ថ្នាក់រាជធានី-ខេត្ត</a>
-                    <span v-else>ថ្នាក់រាជធានី-ខេត្ត</span>
+                    <span>ថ្នាក់រាជធានី-ខេត្ត</span>
                 </li>
-                <li class="breadcrumb-item font-kulen" v-if="sector.Name!=undefined">តារាងតម្លៃ{{sector.Sector}}</li>
             </ol>
         </nav>
         <loading :active.sync="isLoading" color="#0856ab" :is-full-page="false"></loading>
-        <table class="table kh" v-if="!isDetail">
+        <table class="table kh">
             <thead>
                 <tr class="font-kulen">
                     <td style="width: 20px;">ល.រ</td>
@@ -21,25 +19,20 @@
             <tbody>
                 <tr v-for="(ret,index) in list" :key="index">
                     <td>{{index+1}}</td>
-                    <td><a href="javascript:void(0)" class="link-select" @click="select(ret)">{{ret.Name}}</a></td>
-                    <td class="text-right" style="width: 150px; padding: 10px 0;"><a href="javascript:void(0)" class="btn btn-outline-secondary btn-sm link-select no-margin" @click="select(ret)">មើលតារាងតម្លៃ</a></td>
+                    <td><router-link :to="{name:'capital_detail',params:{id:ret.Id}}" class="link-select" @click="select(ret.Id)">{{ret.Name}}</router-link></td>
+                    <td class="text-right" style="width: 150px; padding: 10px 0;">
+                        <router-link :to="{name:'capital_detail',params:{id:ret.Id}}" class="btn btn-outline-secondary btn-sm link-select no-margin">មើលតារាងតម្លៃ</router-link>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <TableListService v-else></TableListService>
     </div>
 </template>
 <script>
-    import TableListService from '../pages/TableListService'
     export default {
-        components: {
-            TableListService
-        },
         data: function(){
             return {
                 list: [],
-                sector: {},
-                isDetail: false,
                 isLoading: false
             }
         },
@@ -48,29 +41,10 @@
             this.$api().post('api/service/getservicetype', { ServiceTypeId: 1}).then(res => {
                 if(res.data.StatusCode == 200){
                     this.list = res.data.Data;
-                    this.isLoading = false;
                 }
             }).catch(error => {
                 this.$toasted.show(error);
             }).finally(() => { this.isLoading = false; });
-        },
-        methods: {
-            back(){
-                this.$store.state.services = [];
-                this.isDetail = false;
-                this.sector = {};
-            },
-            select(item){
-                this.isLoading = true;
-                this.$api().post('api/service/list', { SectorId: item.Id }).then(res => {
-                    if(res.data.StatusCode == 200){
-                        this.$store.state.services = res.data.Data;
-                        this.isLoading = false;
-                        this.sector = item;
-                        this.isDetail = true;
-                    }
-                });
-            }
         }
     }
 </script>

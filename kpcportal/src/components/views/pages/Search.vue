@@ -140,9 +140,12 @@ export default {
             this.isLoading = true;
             this.$api().post('api/transaction/search', this.query).then((res) => {
                 if(this.$isValid(res)){
-                    this.result = res.data.Data;
-                    this.isLoading = false;
-                    this.isCompleted = true;
+                    if(res.data.Data != null){
+                        this.result = res.data.Data;
+                        this.isCompleted = true;
+                    }else{
+                        this.$toasted.show('Resunt not found.');
+                    }
                 }
             }).catch(error => {
                 this.$toasted.show(error);
@@ -173,7 +176,7 @@ export default {
         border: none;
     }
 
-    /* .vld-overlay{
-        text-align: center;
-    } */
+    .vld-overlay.is-active{
+        outline: none;
+    }
 </style>
