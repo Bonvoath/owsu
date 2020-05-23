@@ -89,6 +89,24 @@ function configRoutes() {
                     }
                 },
                 {
+                    path: 'price/district/:id',
+                    name: 'district_detail',
+                    component: PageCapitalSector,
+                    meta: {
+                        title: 'តម្លៃសេវាថ្នាក់ក្រុងស្រុកខណ្ឌ',
+                        requiresAuth: false
+                    }
+                },
+                {
+                    path: 'price/commune/:id',
+                    name: 'commune_detail',
+                    component: PageCapitalSector,
+                    meta: {
+                        title: 'តម្លៃសេវាថ្នាក់ឃុំសង្កាត់',
+                        requiresAuth: false
+                    }
+                },
+                {
                     path: 'price/capital',
                     component: PageCapital,
                     meta: {

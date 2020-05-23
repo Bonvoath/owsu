@@ -58,7 +58,7 @@
         methods: {
             onDownload(id){
                 //this.$api().get('api/service/download/'+id);
-                window.open(this.$base() + 'api/service/download/' + id);
+                window.open(this.$base() + 'service/download/' + id);
             }
         },
         watch: {

@@ -19,7 +19,7 @@ import numeral from 'numeral';
 export default {
     install(Vue){
         Vue.prototype.$base = () => {
-            return 'http://203.223.44.122:8058/';
+            return 'http://owsu.ncdd.gov.kh/api/api/';
         }
 
         Vue.prototype.$user = () => {

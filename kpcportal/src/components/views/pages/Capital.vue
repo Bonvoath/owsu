@@ -38,9 +38,9 @@
         },
         created: function(){
             this.isLoading = true;
-            this.$api().post('api/service/getservicetype', { ServiceTypeId: 1}).then(res => {
+            this.$api().post('service/types', { ServiceTypeId: 1}).then(res => {
                 if(res.data.StatusCode == 200){
-                    this.list = res.data.Data;
+                    this.list = res.data.Json.Sectors;
                 }
             }).catch(error => {
                 this.$toasted.show(error);

@@ -32,7 +32,7 @@
         methods: {
             select(id){
                 this.isLoading = true;
-                this.$api().post('api/service/list', { SectorId: id }).then(res => {
+                this.$api().post('services', { SectorId: id }).then(res => {
                     if(res.data.StatusCode == 200){
                         var data = res.data.Data;
                         if(data.length > 0){

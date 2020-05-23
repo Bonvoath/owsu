@@ -45,12 +45,11 @@
         },
         created: function(){
             this.isLoading = true;
-            this.$api().post('api/service/getservicetype', { ServiceTypeId: 3}).then(res => {
+            this.$api().post('service/types', { ServiceTypeId: 3 }).then(res => {
                 if(res.data.StatusCode == 200){
-                    this.list = res.data.Data;
-                    this.isLoading = false;
+                    this.list = res.data.Json.Sectors;
                 }
-            });
+            }).finally(() => { this.isLoading = false; });
         },
         methods: {
             back(){
@@ -60,14 +59,13 @@
             },
             select(item){
                 this.isLoading = true;
-                this.$api().post('api/service/list', { SectorId: item.Id }).then(res => {
+                this.$api().post('services', { SectorId: item.Id }).then(res => {
                     if(res.data.StatusCode == 200){
                         this.$store.state.services = res.data.Data;
-                        this.isLoading = false;
                         this.sector = item;
                         this.isDetail = true;
                     }
-                });
+                }).finally(() => { this.isLoading = false; });
             }
         },
         computed: {

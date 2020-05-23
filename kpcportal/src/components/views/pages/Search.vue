@@ -4,7 +4,7 @@
         <div class="search-container" v-if="!isCompleted">
             <div class="row">
                 <div class="col-sm-12">
-                    <p class="text-center">ដើម្បីពិនិត្យដំណើរការឯកសារ ១. ​ត្រូវបញ្ជូលលេខកូដចុះបញ្ជីសេវា​​ ២. ត្រូវបញ្ជូលលេខទូរស័ព្ទដែលបានចុះបញ្ជីសេវា​ បន្ទាប់មកចុកប៉ូតុងស្វែងរកខាងក្រោម។</p>
+                    <p class="text-center">ដើម្បីពិនិត្យដំណើរការឯកសារ ត្រូវបញ្ជូលលេខកូដចុះបញ្ជីសេវា​​​ បន្ទាប់មកចុកប៉ូតុងស្វែងរកខាងក្រោម។</p>
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -17,14 +17,6 @@
                             @blur="blur('code', 'លេខកូដចុះបញ្ជីសេវា')"
                             @keypress.enter="search">
                     </div>
-                    <div class="input-search">
-                        <input type="text" class="form-control" ref="phone"
-                            v-model="query.Phone"
-                            :placeholder="holder.phone"
-                            @focus="focus('phone')"
-                            @blur="blur('phone','លេខទូរស័ព្ទ')"
-                            @keypress.enter="search">
-                    </div>
                     <div class="text-center" style="padding: 25px;">
                         <button type="button" class="btn btn-success btn-search" @click="search"><i class="fa fa-search" aria-hidden="true"></i> ស្វែងរក</button>
                     </div>
@@ -33,25 +25,19 @@
         </div>
         <div class="row justify-content-center" v-else>
             <div class="col-sm-12">
+                <div class="alert alert-primary font-moul" style="padding: 8px 10px;">ដំណើរការឯកសារដល់៖ {{result.ProcessName}}</div>
                 <h5 class="font-moul">ការចុះបញ្ជីសេវា</h5>
                 <table class="table">
                     <tbody>
                         <tr>
-                            <th style="padding-left: 0; width: 150px;">ដំណើរការឯកសារដល់</th>
-                            <td style="width: 15px;">:</td>
-                            <td>
-                                <span class="alert alert-primary font-moul" style="padding: 8px 10px;">{{result.ProcessName}}</span>
-                            </td>
-                        </tr>
-                        <tr>
                             <th style="padding-left: 0; width: 150px;">លេខកូដចុះបញ្ជីសេវា</th>
                             <td style="width: 15px;">:</td>
-                            <td>{{result.Code}}</td>
+                            <td>{{result.RegisterCode}}</td>
                         </tr>
                         <tr>
                             <th style="padding-left: 0">មុខសេវា</th>
                             <td>:</td>
-                            <td>{{result.ServiceName}}</td>
+                            <td>{{result.MstServiceName}}</td>
                         </tr>
                         <tr>
                             <th style="padding-left: 0; width: 150px;">ថ្ងៃចុះបញ្ជីសេវា</th>
@@ -64,14 +50,14 @@
                             <td>{{$format(result.DateExpired, 'DD/MM/YYYY HH:mm A')}}</td>
                         </tr>
                         <tr>
-                            <th style="padding-left: 0; width: 150px;">ឈ្មោះនាមករណ័</th>
+                            <th style="padding-left: 0; width: 150px;">ឈ្មោះនាមករណ៍</th>
                             <td>:</td>
-                            <td>{{result.CustomerName}}</td>
+                            <td>{{result.Name}}</td>
                         </tr>
                         <tr>
                             <th style="padding-left: 0; width: 150px;">តម្លៃ</th>
                             <td>:</td>
-                            <td>{{$money(result.ServicePrice)}} រៀល</td>
+                            <td>{{$money(result.MstServicePrice)}} រៀល</td>
                         </tr>
                         <tr>
                             <th style="padding-left: 0; width: 150px;">ចំនួន</th>
@@ -100,7 +86,6 @@ export default {
         return {
             query: {
                 RegisterCode: '',
-                Phone: ''
             },
             holder: {
                 code: 'លេខកូដចុះបញ្ជីសេវា',
@@ -122,7 +107,6 @@ export default {
             this.result = {};
             this.query = {
                 RegisterCode: '',
-                Phone: ''
             };
             this.isCompleted = false;
         },
@@ -132,16 +116,11 @@ export default {
                 this.$refs.code.focus();
                 return;
             }
-            if(this.query.Phone == null || this.query.Phone == ''){
-                this.$toasted.show('សូមធ្វើការបញ្ជូលលេខទូរស័ព្ទ');
-                this.$refs.phone.focus();
-                return;
-            }
             this.isLoading = true;
-            this.$api().post('api/transaction/search', this.query).then((res) => {
+            this.$api().post('search/register', this.query).then((res) => {
                 if(this.$isValid(res)){
                     if(res.data.Data != null){
-                        this.result = res.data.Data;
+                        this.result = res.data.Json.Register;
                         this.isCompleted = true;
                     }else{
                         this.$toasted.show('Resunt not found.');
