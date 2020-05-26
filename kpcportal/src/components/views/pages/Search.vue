@@ -89,7 +89,6 @@ export default {
             },
             holder: {
                 code: 'លេខកូដចុះបញ្ជីសេវា',
-                phone: 'លេខទូរស័ព្ទ'
             },
             isLoading: false,
             isCompleted: false,
@@ -119,7 +118,7 @@ export default {
             this.isLoading = true;
             this.$api().post('search/register', this.query).then((res) => {
                 if(this.$isValid(res)){
-                    if(res.data.Data != null){
+                    if(res.data.Json.Register != undefined && res.data.Json.Register != null){
                         this.result = res.data.Json.Register;
                         this.isCompleted = true;
                     }else{

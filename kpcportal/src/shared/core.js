@@ -42,16 +42,17 @@ export default {
 
         Vue.prototype.$isValid = (res) => {
             let result = false;
-            if(res.data.StatusCode == 200){
-                result = true;
-            }else{
-                if(res.data.Errors.length > 0){
-                    let message = '';
+            if(res.data.IsError){
+                let message = res.data.ErrorMessage;
+                if(res.data.Errors != null && res.data.Errors.length > 0){
                     res.data.Errors.map(item => {
                         message += item.FieldName + ':' + item.Message + '<br/>';
                     });
-                    Swal.fire('Error Message', message, 'error');
                 }
+                Swal.fire('Error Message', message, 'error');
+                return;
+            }else{
+                result = true;
             }
 
             return result;
